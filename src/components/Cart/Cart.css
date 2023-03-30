@@ -1,0 +1,16 @@
+.cart {
+  background: rgba(255, 153, 0, 0.3);
+  padding: 25px;
+  font-family: 'Lato';
+  position: sticky;
+  top:0;
+}
+
+.cart-title {
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  color: #1C2B35;
+  text-align: center;
+}
