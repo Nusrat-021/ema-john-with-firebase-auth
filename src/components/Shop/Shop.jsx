@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Product from '../Product/Product';
 import './Shop.css';
 import Cart from '../Cart/Cart';
-import { addToDb, getShoppingCart } from '../../utilities/fakedb';
+import { addToDb, deleteShoppingCart, getShoppingCart } from '../../utilities/fakedb';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -16,7 +19,7 @@ const Shop = () => {
 
   useEffect(() => {
     const storedCart = getShoppingCart();
-    const savedCart =[];
+    const savedCart = [];
     // step 1: get id of the addedProduct
     for (const id in storedCart) {
       // product details in object
@@ -39,14 +42,14 @@ const Shop = () => {
     // const newCart = [...cart, product];
     let newCart = [];
     const exists = cart.find(pd => pd.id === product.id);
-    if(!exists){
-      product.quantity =1;
-      newCart = [...cart,product];
+    if (!exists) {
+      product.quantity = 1;
+      newCart = [...cart, product];
     }
-    else{
-      exists.quantity = exists.quantity+1;
+    else {
+      exists.quantity = exists.quantity + 1;
       const remaining = cart.filter(pd => pd.id !== product.id);
-      newCart =[...remaining,exists]; 
+      newCart = [...remaining, exists];
     }
     // if product dose not exist in the cart, set quantity = 1
     // if exist update quantity by 1
@@ -55,6 +58,10 @@ const Shop = () => {
     addToDb(product.id);
   }
 
+  const handleClearCart = () => {
+    setCart([]);
+    deleteShoppingCart();
+  }
   return (
     <div className='shop-container'>
       <div className="product-container">
@@ -63,11 +70,18 @@ const Shop = () => {
             key={product.id}
             product={product}
             handleAddToCart={handleAddToCart}
+
           ></Product>)
         }
       </div>
       <div className="cart-container">
-        <Cart cart={cart}></Cart>
+        <Cart cart={cart}
+          handleClearCart={handleClearCart}
+        >
+          <Link className='proceed-link' to='/orders'>
+            <button className='btn-proceed'>Review Orders <FontAwesomeIcon icon={faArrowRight} /> </button>
+          </Link>
+        </Cart>
 
       </div>
     </div>
