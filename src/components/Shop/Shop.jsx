@@ -10,7 +10,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
-
+// data fetch
   useEffect(() => {
     fetch('products.json')
       .then(res => res.json())
@@ -39,6 +39,7 @@ const Shop = () => {
   }, [products]);
 
   const handleAddToCart = (product) => {
+    console.log(product)
     // const newCart = [...cart, product];
     let newCart = [];
     const exists = cart.find(pd => pd.id === product.id);
